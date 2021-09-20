@@ -6,6 +6,7 @@
   width: 300px;
   padding: 10px;
   margin: 5px;
+  position: relative;
   & .user-name {
     margin-bottom: 30px;
     display: flex;
@@ -13,6 +14,7 @@
     color: #00c8b3;
     font-weight: bold;
     align-items: center;
+    word-wrap: anywhere;
     & span:nth-child(2) {
       margin-left: 10px;
     }
@@ -35,5 +37,10 @@
         }
       }
     }
+  }
+  & .icon{
+    position: absolute;
+    top: 1.43rem;
+    right: 2px;
   }
 }

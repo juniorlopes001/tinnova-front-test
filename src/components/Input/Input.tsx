@@ -1,27 +1,24 @@
-import React, { InputHTMLAttributes, useState } from "react";
-import { CustomInput, InputContainer, Label } from "../LayoutStyles/Styles";
 import './styles.scss';
-import { Field, useField } from 'formik'; 
+
+import { useField } from 'formik';
+import React, { InputHTMLAttributes, useState } from 'react';
+
+import { CustomInput, InputContainer, Label } from '../LayoutStyles/Styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
+  type: string;
+  max?: string;
+  disabled?: any;
   }
 
-export const Input: React.FC<InputProps> = ({ label, name }) => {
+export const Input: React.FC<InputProps> = ({ label, name, type, max, disabled }) => {
   const [isActive, setIsActive] = useState(false);
   
   const [inputValue, setValue] = useState("");
 
-  function handleTextChange(text: any) {
-    setValue(text);
 
-    if (text !== "") {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
-  }
 
   const [field, meta, helpers] = useField({name})
 
@@ -30,9 +27,12 @@ export const Input: React.FC<InputProps> = ({ label, name }) => {
       <InputContainer className="floatAnimation">
         <CustomInput
          {...field} {...name}
-          name={name}    
+          name={name}   
+          type={type} 
+          max={max}
+          disabled={disabled}
         />
-         {meta.error && meta.touched && <div>{meta.error}</div>}
+         {meta.error && meta.touched && <div className="errors">{meta.error}</div>}
         <Label className={isActive ? "Active" : ""} htmlFor="text">
           {label}
         </Label>

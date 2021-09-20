@@ -1,49 +1,58 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import User from "../../../components/Users/models/user.model";
-import UserCard from "../../../components/Users/UserCard/UserCard";
-import { getData } from "../../../service/api";
-import { Container, Title, Row } from "../../../components/LayoutStyles/Styles";
-import { ReactSVG } from 'react-svg'
-import { UserList } from "./Styles";
-import addIcon from '../../../assets/icons/add-circle.svg'
-import { Link } from "react-router-dom";
+import {
+  BodyHalfBackgroundGray,
+  BodyHalfBackgroundPurple,
+  ButtonAdd,
+  Container,
+  Row,
+  WrapperBackground,
+} from '../../../components/LayoutStyles/Styles';
+import User from '../../../components/Users/models/user.model';
+import UserCard from '../../../components/Users/UserCard/UserCard';
+import { getData } from '../../../service/api';
+import { UserList } from './Styles';
 
 const Users: React.FC<{}> = () => {
   const [users, setUser] = useState([]);
-
   useEffect(() => {
-    getData("/users", setUser);
+    const localUsers = JSON.parse(localStorage.getItem("users") as any);
+    console.log(localUsers);
+    
+    setUser(localUsers);
   }, []);
 
   return (
-    <Container>
-      <Row>
-        <Title>Usuários</Title>
-      </Row>
-      
-      <UserList>
-        <Link to="/new-user">
-        <div style={{alignItems: 'center', display: 'flex', width: '270px', justifyContent: 'center'}} >
-          <div  style={{display: 'block', width: '100%', textAlign: 'center'}}>
-          <ReactSVG src={addIcon} style={{width: '80px', margin: '0 auto'}}/>
-          Adicionar Usuário
-          </div>
-         
-        </div>
-        </Link>
-
-        {users.map((user: User) => (
-          <UserCard
-            key={user.cpf}
-            name={user.name}
-            phone={user.name}
-            cpf={user.cpf}
-            email={user.email}
-          />
-        ))}
-      </UserList>
-    </Container>
+      <WrapperBackground>
+        <BodyHalfBackgroundPurple />
+        <BodyHalfBackgroundGray />
+        <Container>
+        <Row
+          style={{
+            justifyContent: "space-between",
+            width: "100%",
+            alignItems: "center",
+          }}
+        >
+          <h1 style={{color: '#fff'}}>Usuários</h1>
+          <Link to="/new-user">
+            <ButtonAdd>Adicionar Usuário</ButtonAdd>
+          </Link>
+        </Row>
+        <UserList>
+          {users.map((user: User) => (
+            <UserCard
+              key={user.cpf}
+              name={user.name}
+              phone={user.name}
+              cpf={user.cpf}
+              email={user.email}
+            />
+          ))}
+        </UserList>
+        </Container>
+      </WrapperBackground>
   );
 };
 
